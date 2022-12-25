@@ -56,10 +56,6 @@ FatFileSystem fatfs;
 // USB Mass Storage object
 Adafruit_USBD_MSC usb_msc;
 
-// Set to true when PC write to flash
-bool fs_changed;
-
-
 // Callback invoked when received READ10 command.
 // Copy disk's data to buffer (up to bufsize) and
 // return number of copied bytes (must be multiple of block size)
@@ -91,8 +87,6 @@ void msc_flush_cb (void)
 
   // clear file system's cache to force refresh
   fatfs.cacheClear();
-
-  fs_changed = true;
 
   digitalWrite(LED_BUILTIN, LOW);
 }
