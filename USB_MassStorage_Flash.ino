@@ -56,6 +56,8 @@ FatFileSystem fatfs;
 // USB Mass Storage object
 Adafruit_USBD_MSC usb_msc;
 
+// Set to true when PC write to flash
+
 // Callback invoked when received READ10 command.
 // Copy disk's data to buffer (up to bufsize) and
 // return number of copied bytes (must be multiple of block size)
@@ -135,6 +137,13 @@ void loop()
   if (c == 'm')
   {
     Serial.println("Mount filesystem");
+    // The file system object from SdFat to read/write to the files in the internal flash
+    // The file system should be mounted every time it is modified through the tinyUSB.
+    // Also the flash drive should be unmounted
+    if (!fatfs.begin(&flash))
+    {
+      Serial.println("Error: file system not existing. The internal flash drive should first be formated with Windows or fdisk on Linux.");
+    }
   }
   else if (c == 'l')
   {
