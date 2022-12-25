@@ -51,9 +51,7 @@ Adafruit_SPIFlash flash(&flashTransport);
 // file system object from SdFat
 FatFileSystem fatfs;
 
-FatFile root;
-FatFile file;
-File myFile;
+
 
 // USB Mass Storage object
 Adafruit_USBD_MSC usb_msc;
@@ -130,25 +128,92 @@ void setup()
   Serial.print("JEDEC ID: 0x"); Serial.println(flash.getJEDECID(), HEX);
   Serial.print("Flash size: "); Serial.print(flash.size() / 1024); Serial.println(" KB");
 
-  // open the file
-  myFile = fatfs.open("test.txt", FILE_WRITE);
-
-  // if the file opened okay, write to it:
-  if (myFile) {
-    Serial.print("Writing to test.txt...");
-    myFile.println("testing, pre-connect");
-    myFile.flush();
-    delay(50);
-    // close the file:
-    myFile.close();
-    Serial.println("done.");
-  } else {
-    // if the file didn't open, print an error:
-    Serial.println("error opening test.txt");
-  }
 }
 
 void loop()
 {
-  // no-op
+  delay(100);
+
+  if (!Serial.available())
+    return;
+
+  char c = Serial.read();
+  if (c == 'm')
+  {
+    Serial.println("Mount filesystem");
+  }
+  else if (c == 'l')
+  {
+    // List all the files in the internal flash drive
+    Serial.println("Listing files");
+    //    SdFile root;
+    FatFile root;
+
+
+    if (!root.open("/")) {
+      Serial.println("open root failed");
+    }
+    // Open next file in root.
+    // Warning, openNext starts at the current directory position
+    // so a rewind of the directory may be required.
+    //    File file;
+    FatFile file;
+
+    while (file.openNext(&root, O_RDONLY))
+    {
+      file.printFileSize(&Serial);
+      Serial.write(' ');
+      file.printModifyDateTime(&Serial);
+      Serial.write(' ');
+      file.printName(&Serial);
+      if (file.isDir()) {
+        // Indicate a directory.
+        Serial.write('/');
+      }
+      Serial.println();
+      // The file should be close to go to the next file
+      file.close();
+    }
+    root.close(); // !!!
+  }
+  else if (c == 'c')
+  {
+    Serial.println("Create a file");
+    // open the file. note that only one file can be open at a time,
+    // so you have to close this one before opening another.
+    File myFile = fatfs.open("testCreate.txt", FILE_WRITE);
+
+    // if the file opened okay, write to it:
+    if (myFile) {
+      // close the file:
+      myFile.close();
+      // sync with flash
+      msc_flush_cb(); // ?????
+      Serial.println("done.");
+    } else {
+      // if the file didn't open, print an error:
+      Serial.println("error opening testCreate.txt");
+    }
+  }
+  else if (c == 'w')
+  {
+    Serial.println("Write a file");
+    // open the file
+    File myFile = fatfs.open("testWrite.txt", FILE_WRITE);
+
+    // if the file opened okay, write to it:
+    if (myFile) {
+      Serial.print("Writing to testWrite.txt...");
+      myFile.println("testing 1, 2, 3.");
+      myFile.flush(); // ???
+      delay(50); // ???
+      // close the file:
+      myFile.close();
+      // todo sync ??
+      Serial.println("done.");
+    } else {
+      // if the file didn't open, print an error:
+      Serial.println("error opening testWrite.txt");
+    }
+  }
 }
