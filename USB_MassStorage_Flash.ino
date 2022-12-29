@@ -26,11 +26,12 @@
     Core Debug Level: Geen
     Erase All Flash before Sketch upload: disabled
 
-    ESP32 Arduino core: 2.0.5
+    - ESP32 Arduino core 2.0.5 and TinyUSB 1.16.0 (not 1.17.0)
+    OR
+    - ESP32 Arduino core 2.0.6 and TinyUSB 1.17.0
     Library
     - SdFat: Adafruit fork 2.2.1
     - Adafruit SPIFlash : 4.0.0
-    - TinyUSB: 1.16.0 (NOT 1.17.0 !!)
 */
 
 /*********************************************************************
