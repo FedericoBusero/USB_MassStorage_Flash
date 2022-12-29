@@ -28,7 +28,7 @@
 
     - ESP32 Arduino core 2.0.5 and TinyUSB 1.16.0 (not 1.17.0)
     OR
-    - ESP32 Arduino core 2.0.6 and TinyUSB 1.17.0
+    - ESP32 Arduino core 2.0.6 and TinyUSB 1.16.0 or 1.17.0
     Library
     - SdFat: Adafruit fork 2.2.1
     - Adafruit SPIFlash : 4.0.0
