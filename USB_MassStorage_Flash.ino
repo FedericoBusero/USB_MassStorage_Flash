@@ -12,7 +12,7 @@
     Settings Adafruit QT PY
     ==>Menu: Tools>USB Stack:TinyUSB
     Core: laatste versie Adafruit SAMD 1.7.11
-    ==>Adafruit TinyUSB: laatste versie (1.16.0)
+    ==>Adafruit TinyUSB: laatste versie (1.16.0/1.17.0)
     Adafruit Internalflash versie 0.1.0
     SdFat.h : adafruit version 2.2.1
     FlashStorage by Arduino versie 1.0.0 vanuit IDE ofwel vanuit github https://github.com/cmaglie/FlashStorage
@@ -30,7 +30,7 @@
     Library
     - SdFat: Adafruit fork 2.2.1
     - Adafruit SPIFlash : 4.0.0
-    - TinyUSB: 1.16.0
+    - TinyUSB: 1.16.0 (NOT 1.17.0 !!)
 */
 
 /*********************************************************************
